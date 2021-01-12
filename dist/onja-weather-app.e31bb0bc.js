@@ -33853,9 +33853,7 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","history":"node_modules/history/esm/history.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"Onja_weather-app/icons/location_searching.svg":[function(require,module,exports) {
-module.exports = "/location_searching.848a7b0e.svg";
-},{}],"node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
+},{"react-router":"node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","history":"node_modules/history/esm/history.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -35655,7 +35653,7 @@ module.exports.default = axios;
 
 },{"./utils":"node_modules/axios/lib/utils.js","./helpers/bind":"node_modules/axios/lib/helpers/bind.js","./core/Axios":"node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"node_modules/axios/lib/core/mergeConfig.js","./defaults":"node_modules/axios/lib/defaults.js","./cancel/Cancel":"node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"node_modules/axios/lib/helpers/spread.js","./helpers/isAxiosError":"node_modules/axios/lib/helpers/isAxiosError.js"}],"node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"node_modules/axios/lib/axios.js"}],"Onja_weather-app/WeatherAppContext.js":[function(require,module,exports) {
+},{"./lib/axios":"node_modules/axios/lib/axios.js"}],"Onja_weather-app/Components/WeatherAppContext.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35677,20 +35675,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const WeatherAppContexts = (0, _react.createContext)();
 exports.WeatherAppContexts = WeatherAppContexts;
 const CORSE_API = "https://cors-anywhere.herokuapp.com/";
-const DEFAULT_API = "https://www.metaweather.com//api/location/search/?query=london";
+const DEFAULT_API = "https://www.metaweather.com//api/location/";
+const QUERY = "https://www.metaweather.com//api/location/search/?query=";
 
 function WeatherContextProvider({
   children
 }) {
+  const [query, setQuery] = (0, _react.useState)("london");
   const [state, dispatch] = (0, _react.useReducer)((state, action) => {
     switch (action.type) {
       case "WEATHER_DEFAULT":
         {
           return { ...state,
-            weather: action.response
+            weather: action.response,
+            loading: !action.loading
           };
         }
-        break;
 
       default:
         {
@@ -35702,29 +35702,48 @@ function WeatherContextProvider({
     return state;
   }, {
     weather: [],
-    query: "london"
+    date: new Date(),
+    loading: false,
+    woeid: "44418"
   });
+  const {
+    weather,
+    loading,
+    woeid
+  } = state;
+  console.log(woeid);
+  console.log(weather);
   (0, _react.useEffect)(async () => {
-    const response = await (0, _axios.default)(CORSE_API + DEFAULT_API + query);
+    const response = await (0, _axios.default)(CORSE_API + DEFAULT_API + woeid);
     console.log(response.data);
     dispatch({
       type: "WEATHER_DEFAULT",
       response: response.data
     });
+    console.log(query);
   }, []);
 
-  function filterByLocation() {
-    console.log("me");
+  function handeInputQuery(e) {
+    setQuery(e.target.value);
+    console.log("fetch this", query);
+  }
+
+  function handleSubmitQuery(e) {
+    e.preventDefault();
+    console.log(query);
   }
 
   return /*#__PURE__*/_react.default.createElement(WeatherAppContexts.Provider, {
     value: {
       state,
-      dispatch
+      dispatch,
+      handeInputQuery,
+      handleSubmitQuery,
+      query
     }
   }, children);
 }
-},{"axios":"node_modules/axios/index.js","react":"node_modules/react/index.js"}],"Onja_weather-app/Components/Modal.js":[function(require,module,exports) {
+},{"axios":"node_modules/axios/index.js","react":"node_modules/react/index.js"}],"Onja_weather-app/pages/DisplayWeatherApp.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35732,24 +35751,104 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _WeatherAppContext = require("../Components/WeatherAppContext");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function DisplayWeatherApp() {
+  const {
+    state,
+    dispatch
+  } = (0, _react.useContext)(_WeatherAppContext.WeatherAppContexts);
+  const {
+    weather,
+    loading
+  } = state;
+  console.log(weather);
+  const weatherConsolidated = loading && weather && weather.consolidated_weather[0];
+  console.log(weatherConsolidated); // const date1 = loading && weather && ;
+
+  const weather1 = loading && weather && weather.consolidated_weather[1];
+  console.log(weather1);
+  const weather2 = loading && weather && weather.consolidated_weather[2];
+  const weather3 = loading && weather && weather.consolidated_weather[3];
+  const weather4 = loading && weather && weather.consolidated_weather[4];
+  const weather5 = loading && weather && weather.consolidated_weather[5];
+  const weekWeather = [weather1, weather2, weather3, weather4, weather5];
+  console.log(weekWeather);
+  return /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", null, !loading && "Loading...", /*#__PURE__*/_react.default.createElement("img", {
+    src: `https://www.metaweather.com//static/img/weather/${weatherConsolidated.weather_state_abbr}.svg`
+  }), /*#__PURE__*/_react.default.createElement("p", null, weatherConsolidated.humidity, "\xB0C"), /*#__PURE__*/_react.default.createElement("p", null, weatherConsolidated.weather_state_name), /*#__PURE__*/_react.default.createElement("p", null, "Today: ", new Date(weatherConsolidated.applicable_date).toDateString())), /*#__PURE__*/_react.default.createElement("div", null, weekWeather.map(day => /*#__PURE__*/_react.default.createElement("ul", {
+    key: day.id
+  }, /*#__PURE__*/_react.default.createElement("li", null, new Date(day.applicable_date).toDateString()), /*#__PURE__*/_react.default.createElement("img", {
+    src: `https://www.metaweather.com//static/img/weather/${day.weather_state_abbr}.svg`
+  }), /*#__PURE__*/_react.default.createElement("li", null, day.humidity, "\xB0C"), /*#__PURE__*/_react.default.createElement("li", null, day.predictability, "\xB0C")))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, new Date(weatherConsolidated.applicable_date).toDateString(), " Highlight"), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Wind status"), /*#__PURE__*/_react.default.createElement("p", null)))));
+}
+
+{
+  /* <li>{day.weather2}</li> */
+}
+{
+  /* <li>{day.weather3}</li> */
+}
+{
+  /* <li>{day.weather4}</li> */
+}
+{
+  /* <li>{day.weather5}</li> */
+}
+var _default = DisplayWeatherApp;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","../Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js"}],"Onja_weather-app/icons/location_searching.svg":[function(require,module,exports) {
+module.exports = "/location_searching.848a7b0e.svg";
+},{}],"Onja_weather-app/pages/Modal.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _WeatherAppContext = require("../Components/WeatherAppContext");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Modal({
-  search
+  search,
+  setSearch
 }) {
+  const {
+    state,
+    handeInputQuery,
+    handleSubmitQuery,
+    qeury
+  } = (0, _react.useContext)(_WeatherAppContext.WeatherAppContexts);
   const classModalName = search ? "displayBlock" : "displayNone";
   return /*#__PURE__*/_react.default.createElement("form", {
-    className: classModalName
-  }, /*#__PURE__*/_react.default.createElement("input", {
-    type: "text"
-  }));
+    className: classModalName,
+    onSubmit: handleSubmitQuery
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => setSearch(false)
+  }, "X"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: qeury,
+    onChange: handeInputQuery
+  }), /*#__PURE__*/_react.default.createElement("button", {
+    type: "submit"
+  }, "Search"));
 }
 
 var _default = Modal;
 exports.default = _default;
-},{"react":"node_modules/react/index.js"}],"Onja_weather-app/Components/Header.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js"}],"Onja_weather-app/pages/Header.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35761,9 +35860,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _location_searching = _interopRequireDefault(require("../icons/location_searching.svg"));
 
-var _WeatherAppContext = require("../WeatherAppContext");
-
-var _Modal = _interopRequireDefault(require("./Modal"));
+var _Modal = _interopRequireDefault(require("../pages/Modal"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35772,14 +35869,6 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Header() {
-  const {
-    state,
-    dispatch
-  } = (0, _react.useContext)(_WeatherAppContext.WeatherAppContexts);
-  const {
-    weather
-  } = state;
-  console.log(weather);
   const [search, setSearch] = (0, _react.useState)(false);
   console.log(search);
   return /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
@@ -35790,13 +35879,14 @@ function Header() {
   }, "Search for places"), /*#__PURE__*/_react.default.createElement("button", null, /*#__PURE__*/_react.default.createElement("img", {
     src: _location_searching.default
   }))), search ? /*#__PURE__*/_react.default.createElement(_Modal.default, {
-    search: search
+    search: search,
+    setSearch: setSearch
   }) : "");
 }
 
 var _default = Header;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../icons/location_searching.svg":"Onja_weather-app/icons/location_searching.svg","../WeatherAppContext":"Onja_weather-app/WeatherAppContext.js","./Modal":"Onja_weather-app/Components/Modal.js"}],"Onja_weather-app/WeatherApp.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../icons/location_searching.svg":"Onja_weather-app/icons/location_searching.svg","../pages/Modal":"Onja_weather-app/pages/Modal.js"}],"Onja_weather-app/Components/WeatherApp.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35806,7 +35896,9 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Header = _interopRequireDefault(require("./Components/Header"));
+var _DisplayWeatherApp = _interopRequireDefault(require("../pages/DisplayWeatherApp"));
+
+var _Header = _interopRequireDefault(require("../pages/Header"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35815,12 +35907,84 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function WeatherApp() {
-  return /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("h1", null, "Onja Weather App "), /*#__PURE__*/_react.default.createElement(_Header.default, null));
+  return /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("h1", null, "Onja Weather App "), /*#__PURE__*/_react.default.createElement(_Header.default, null), /*#__PURE__*/_react.default.createElement(_DisplayWeatherApp.default, null));
 }
 
 var _default = WeatherApp;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./Components/Header":"Onja_weather-app/Components/Header.js"}],"index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../pages/DisplayWeatherApp":"Onja_weather-app/pages/DisplayWeatherApp.js","../pages/Header":"Onja_weather-app/pages/Header.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"Onja_weather-app/index.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -35829,14 +35993,16 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 
 var _reactRouterDom = require("react-router-dom");
 
-var _WeatherApp = _interopRequireDefault(require("./Onja_weather-app/WeatherApp"));
+var _WeatherApp = _interopRequireDefault(require("./Onja_weather-app/Components/WeatherApp"));
 
-var _WeatherAppContext = require("./Onja_weather-app/WeatherAppContext");
+var _WeatherAppContext = require("./Onja_weather-app/Components/WeatherAppContext");
+
+require("./Onja_weather-app/index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_WeatherAppContext.WeatherContextProvider, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_WeatherApp.default, null))), document.getElementById("root"));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./Onja_weather-app/WeatherApp":"Onja_weather-app/WeatherApp.js","./Onja_weather-app/WeatherAppContext":"Onja_weather-app/WeatherAppContext.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./Onja_weather-app/Components/WeatherApp":"Onja_weather-app/Components/WeatherApp.js","./Onja_weather-app/Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js","./Onja_weather-app/index.css":"Onja_weather-app/index.css"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -35864,7 +36030,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59436" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55402" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
