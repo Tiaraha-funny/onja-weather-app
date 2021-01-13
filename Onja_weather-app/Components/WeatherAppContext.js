@@ -22,6 +22,13 @@ function WeatherContextProvider({ children }) {
           };
         }
 
+        case "WEATHER_QUERY": {
+          return {
+            ...state,
+            weather: action.result
+          }
+        }
+
         default: {
           console.error("No actions defined for", action.type);
           break;
@@ -43,6 +50,12 @@ function WeatherContextProvider({ children }) {
     console.log(query);
   }, []);
 
+  useEffect(async () => {
+    const result = await axios(CORSE_API + QUERY + query )
+    console.log(result.data);
+    dispatch({type: "WEATHER_QUERY", result: result.data})
+  }, [])
+
   function handeInputQuery(e) {
     setQuery(e.target.value);
     console.log("fetch this", query);
@@ -51,6 +64,7 @@ function WeatherContextProvider({ children }) {
   function handleSubmitQuery(e) {
     e.preventDefault();
     console.log(query);
+    dispatch({type: "WEATHER_QUERY"})
   }
 
   return (

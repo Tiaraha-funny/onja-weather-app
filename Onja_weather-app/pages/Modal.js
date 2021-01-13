@@ -7,7 +7,7 @@ function Modal({ search, setSearch }) {
   const classModalName = search ? "displayBlock" : "displayNone";
   return (
     <div className={classModalName}>
-    <form className="modal-content" onSubmit={handleSubmitQuery}>
+    <form className="modal-content" onSubmit={(e) => handleSubmitQuery(e.target.value)}>
       <input type="text" value={qeury} onChange={handeInputQuery} placeholder="search location" />
       <button type="submit" className="search-btn">Search</button>
     </form>

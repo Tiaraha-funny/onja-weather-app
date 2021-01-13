@@ -1,24 +1,27 @@
 import React, { useContext, useState } from "react";
-import locationSearchSvg from "../icons/location_searching.svg";
-import Modal from "../pages/Modal";
 import { WeatherAppContexts } from "../Components/WeatherAppContext";
+import Header from "./Header";
 
 function DisplayWeatherApp() {
   const [search, setSearch] = useState(false);
-  console.log(search);
+  console.log("search", search);
 
   const { state, dispatch } = useContext(WeatherAppContexts);
   const { weather, loading } = state;
-  console.log(weather);
+  console.log("global weather", weather);
 
-  const weatherConsolidated =
+  const nameLocation = loading && weather && weather.parent
+  console.log("name of the city", nameLocation);
+
+  const weatherToday =
     loading && weather && weather.consolidated_weather[0];
-  console.log(weatherConsolidated);
+  console.log("weather today", weatherToday);
 
-  // const date1 = loading && weather && ;
+  const dateWeath = loading && weather && weather.applicable_date
+  console.log("weather of the date", dateWeath);
 
-  const weather1 = loading && weather && weather.consolidated_weather[1];
-  console.log(weather1);
+  const weather1 = loading && weather && weather.consolidated_weather[0];
+  console.log("start tomorow", weather1);
   const weather2 = loading && weather && weather.consolidated_weather[2];
   const weather3 = loading && weather && weather.consolidated_weather[3];
   const weather4 = loading && weather && weather.consolidated_weather[4];
@@ -30,27 +33,20 @@ function DisplayWeatherApp() {
   return (
     <section>
       <header className="subheadings">
-        <div className="main-container">
-          <button className="container__search" onClick={() => setSearch(true)}>
-            Search for places
-          </button>
-          <button className="container__icon">
-            <img src={locationSearchSvg} />
-          </button>
-        </div>
-        {search ? <Modal search={search} setSearch={setSearch} /> : ""}
+        <Header/>
         {!loading && "Loading..."}
         <div className="main-container-description">
           <img
             className="image-heading"
-            src={`https://www.metaweather.com//static/img/weather/${weatherConsolidated.weather_state_abbr}.svg`}
+            src={`https://www.metaweather.com//static/img/weather/${weatherToday.weather_state_abbr}.svg`}
           />
-          <p className="temp">{weatherConsolidated.the_temp}&deg;C</p>
-          <p className="name">{weatherConsolidated.weather_state_name}</p>
+          <p className="temp">{Math.round(weatherToday.the_temp)}&deg;C</p>
+          <p className="name">{weatherToday.weather_state_name}</p>
           <p className="date">
-            Today:{" "}
-            {new Date(weatherConsolidated.applicable_date).toDateString()}
+            Today:
+            {new Date(weatherToday.applicable_date).toDateString('en-us', { day: 'numeric', weekday: 'short', month: 'short' })}
           </p>
+          <h1>{nameLocation.title}</h1>
         </div>
       </header>
       <div className="more-info">
@@ -63,37 +59,42 @@ function DisplayWeatherApp() {
                 src={`https://www.metaweather.com//static/img/weather/${day.weather_state_abbr}.svg`}
               />
               <div className="tempeture">
-                <p>{day.max_temp} &deg;C</p>
-                <p>{day.min_temp} &deg;C</p>
+                <p>{Math.round(day.max_temp)} &deg;C</p>
+                <p>{Math.round(day.min_temp)} &deg;C</p>
               </div>
             </li>
           ))}
         </ul>
         <div>
           <h2>
-            {new Date(weatherConsolidated.applicable_date).toDateString()}{" "}
+            {new Date(weatherToday.applicable_date).toDateString()}{" "}
             Highlight
           </h2>
           <ul className="lists-info">
             <li>
               <p>Wind status</p>
-              <p>{weatherConsolidated.wind_speed} mph</p>
-              <p>{weatherConsolidated.wind_direction_compass}</p>
+              <p>{weatherToday.wind_speed} mph</p>
+              <p>{weatherToday.wind_direction_compass}</p>
             </li>
             <li>
               <p>Humidity</p>
-              <p>{weatherConsolidated.humidity} %</p>
-              <p>
-                <progress>100</progress>%
-              </p>
+              <p>{weatherToday.humidity} %</p>
+              <dfn className="progress-bar">
+              <div className="progress">
+                <small>0</small>
+                <small className="half-progress">50</small>
+                <small>100</small>
+              </div>
+                <progress value={weatherToday.humidity} max="100"></progress>%
+              </dfn>
             </li>
             <li>
               <p>Visibility</p>
-              <p>{weatherConsolidated.visibility} miles</p>
+              <p>{weatherToday.visibility} miles</p>
             </li>
             <li>
               <p>Air pressure</p>
-              <p>{weatherConsolidated.air_pressure} mb</p>
+              <p>{weatherToday.air_pressure} mb</p>
             </li>
           </ul>
         </div>

@@ -167,6 +167,14 @@ h2 {
     font-size: 18px;
     color: #88869D;
 }
+.half-progress {
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+progress {
+    padding: 16px;
+}
 
 @media (min-width: 1400px) {
     section {
