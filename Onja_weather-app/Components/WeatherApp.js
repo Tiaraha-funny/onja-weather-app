@@ -6,7 +6,6 @@ function WeatherApp() {
   return (
     <main>
       <h1>Onja Weather App </h1>
-      <Header />
       <DisplayWeatherApp />
     </main>
   );

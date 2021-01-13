@@ -33853,7 +33853,9 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","history":"node_modules/history/esm/history.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
+},{"react-router":"node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","history":"node_modules/history/esm/history.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"Onja_weather-app/icons/location_searching.svg":[function(require,module,exports) {
+module.exports = "/location_searching.848a7b0e.svg";
+},{}],"node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -35743,69 +35745,7 @@ function WeatherContextProvider({
     }
   }, children);
 }
-},{"axios":"node_modules/axios/index.js","react":"node_modules/react/index.js"}],"Onja_weather-app/pages/DisplayWeatherApp.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _WeatherAppContext = require("../Components/WeatherAppContext");
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function DisplayWeatherApp() {
-  const {
-    state,
-    dispatch
-  } = (0, _react.useContext)(_WeatherAppContext.WeatherAppContexts);
-  const {
-    weather,
-    loading
-  } = state;
-  console.log(weather);
-  const weatherConsolidated = loading && weather && weather.consolidated_weather[0];
-  console.log(weatherConsolidated); // const date1 = loading && weather && ;
-
-  const weather1 = loading && weather && weather.consolidated_weather[1];
-  console.log(weather1);
-  const weather2 = loading && weather && weather.consolidated_weather[2];
-  const weather3 = loading && weather && weather.consolidated_weather[3];
-  const weather4 = loading && weather && weather.consolidated_weather[4];
-  const weather5 = loading && weather && weather.consolidated_weather[5];
-  const weekWeather = [weather1, weather2, weather3, weather4, weather5];
-  console.log(weekWeather);
-  return /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", null, !loading && "Loading...", /*#__PURE__*/_react.default.createElement("img", {
-    src: `https://www.metaweather.com//static/img/weather/${weatherConsolidated.weather_state_abbr}.svg`
-  }), /*#__PURE__*/_react.default.createElement("p", null, weatherConsolidated.humidity, "\xB0C"), /*#__PURE__*/_react.default.createElement("p", null, weatherConsolidated.weather_state_name), /*#__PURE__*/_react.default.createElement("p", null, "Today: ", new Date(weatherConsolidated.applicable_date).toDateString())), /*#__PURE__*/_react.default.createElement("div", null, weekWeather.map(day => /*#__PURE__*/_react.default.createElement("ul", {
-    key: day.id
-  }, /*#__PURE__*/_react.default.createElement("li", null, new Date(day.applicable_date).toDateString()), /*#__PURE__*/_react.default.createElement("img", {
-    src: `https://www.metaweather.com//static/img/weather/${day.weather_state_abbr}.svg`
-  }), /*#__PURE__*/_react.default.createElement("li", null, day.humidity, "\xB0C"), /*#__PURE__*/_react.default.createElement("li", null, day.predictability, "\xB0C")))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, new Date(weatherConsolidated.applicable_date).toDateString(), " Highlight"), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Wind status"), /*#__PURE__*/_react.default.createElement("p", null)))));
-}
-
-{
-  /* <li>{day.weather2}</li> */
-}
-{
-  /* <li>{day.weather3}</li> */
-}
-{
-  /* <li>{day.weather4}</li> */
-}
-{
-  /* <li>{day.weather5}</li> */
-}
-var _default = DisplayWeatherApp;
-exports.default = _default;
-},{"react":"node_modules/react/index.js","../Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js"}],"Onja_weather-app/icons/location_searching.svg":[function(require,module,exports) {
-module.exports = "/location_searching.848a7b0e.svg";
-},{}],"Onja_weather-app/pages/Modal.js":[function(require,module,exports) {
+},{"axios":"node_modules/axios/index.js","react":"node_modules/react/index.js"}],"Onja_weather-app/pages/Modal.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35832,23 +35772,28 @@ function Modal({
     qeury
   } = (0, _react.useContext)(_WeatherAppContext.WeatherAppContexts);
   const classModalName = search ? "displayBlock" : "displayNone";
-  return /*#__PURE__*/_react.default.createElement("form", {
-    className: classModalName,
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: classModalName
+  }, /*#__PURE__*/_react.default.createElement("form", {
+    className: "modal-content",
     onSubmit: handleSubmitQuery
-  }, /*#__PURE__*/_react.default.createElement("button", {
-    onClick: () => setSearch(false)
-  }, "X"), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("input", {
     type: "text",
     value: qeury,
-    onChange: handeInputQuery
+    onChange: handeInputQuery,
+    placeholder: "search location"
   }), /*#__PURE__*/_react.default.createElement("button", {
-    type: "submit"
-  }, "Search"));
+    type: "submit",
+    className: "search-btn"
+  }, "Search")), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => setSearch(false),
+    className: "close"
+  }, "X"));
 }
 
 var _default = Modal;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js"}],"Onja_weather-app/pages/Header.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js"}],"Onja_weather-app/pages/DisplayWeatherApp.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35862,31 +35807,89 @@ var _location_searching = _interopRequireDefault(require("../icons/location_sear
 
 var _Modal = _interopRequireDefault(require("../pages/Modal"));
 
+var _WeatherAppContext = require("../Components/WeatherAppContext");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function Header() {
+function DisplayWeatherApp() {
   const [search, setSearch] = (0, _react.useState)(false);
   console.log(search);
-  return /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "container"
+  const {
+    state,
+    dispatch
+  } = (0, _react.useContext)(_WeatherAppContext.WeatherAppContexts);
+  const {
+    weather,
+    loading
+  } = state;
+  console.log(weather);
+  const weatherConsolidated = loading && weather && weather.consolidated_weather[0];
+  console.log(weatherConsolidated); // const date1 = loading && weather && ;
+
+  const weather1 = loading && weather && weather.consolidated_weather[1];
+  console.log(weather1);
+  const weather2 = loading && weather && weather.consolidated_weather[2];
+  const weather3 = loading && weather && weather.consolidated_weather[3];
+  const weather4 = loading && weather && weather.consolidated_weather[4];
+  const weather5 = loading && weather && weather.consolidated_weather[5];
+  const weekWeather = [weather1, weather2, weather3, weather4, weather5];
+  console.log(weekWeather);
+  return /*#__PURE__*/_react.default.createElement("section", null, /*#__PURE__*/_react.default.createElement("header", {
+    className: "subheadings"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "main-container"
   }, /*#__PURE__*/_react.default.createElement("button", {
     className: "container__search",
     onClick: () => setSearch(true)
-  }, "Search for places"), /*#__PURE__*/_react.default.createElement("button", null, /*#__PURE__*/_react.default.createElement("img", {
+  }, "Search for places"), /*#__PURE__*/_react.default.createElement("button", {
+    className: "container__icon"
+  }, /*#__PURE__*/_react.default.createElement("img", {
     src: _location_searching.default
   }))), search ? /*#__PURE__*/_react.default.createElement(_Modal.default, {
     search: search,
     setSearch: setSearch
-  }) : "");
+  }) : "", !loading && "Loading...", /*#__PURE__*/_react.default.createElement("div", {
+    className: "main-container-description"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "image-heading",
+    src: `https://www.metaweather.com//static/img/weather/${weatherConsolidated.weather_state_abbr}.svg`
+  }), /*#__PURE__*/_react.default.createElement("p", {
+    className: "temp"
+  }, weatherConsolidated.the_temp, "\xB0C"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "name"
+  }, weatherConsolidated.weather_state_name), /*#__PURE__*/_react.default.createElement("p", {
+    className: "date"
+  }, "Today:", " ", new Date(weatherConsolidated.applicable_date).toDateString()))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "more-info"
+  }, /*#__PURE__*/_react.default.createElement("ul", {
+    className: "container"
+  }, weekWeather.map(day => /*#__PURE__*/_react.default.createElement("li", {
+    key: day.id,
+    className: "list-items"
+  }, /*#__PURE__*/_react.default.createElement("p", null, new Date(day.applicable_date).toDateString()), /*#__PURE__*/_react.default.createElement("img", {
+    className: "image-content",
+    src: `https://www.metaweather.com//static/img/weather/${day.weather_state_abbr}.svg`
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "tempeture"
+  }, /*#__PURE__*/_react.default.createElement("p", null, day.max_temp, " \xB0C"), /*#__PURE__*/_react.default.createElement("p", null, day.min_temp, " \xB0C"))))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, new Date(weatherConsolidated.applicable_date).toDateString(), " ", "Highlight"), /*#__PURE__*/_react.default.createElement("ul", {
+    className: "lists-info"
+  }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Wind status"), /*#__PURE__*/_react.default.createElement("p", null, weatherConsolidated.wind_speed, " mph"), /*#__PURE__*/_react.default.createElement("p", null, weatherConsolidated.wind_direction_compass)), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Humidity"), /*#__PURE__*/_react.default.createElement("p", null, weatherConsolidated.humidity, " %"), /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("progress", null, "100"), "%")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Visibility"), /*#__PURE__*/_react.default.createElement("p", null, weatherConsolidated.visibility, " miles")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Air pressure"), /*#__PURE__*/_react.default.createElement("p", null, weatherConsolidated.air_pressure, " mb"))))));
 }
 
-var _default = Header;
+var _default = DisplayWeatherApp;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../icons/location_searching.svg":"Onja_weather-app/icons/location_searching.svg","../pages/Modal":"Onja_weather-app/pages/Modal.js"}],"Onja_weather-app/Components/WeatherApp.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../icons/location_searching.svg":"Onja_weather-app/icons/location_searching.svg","../pages/Modal":"Onja_weather-app/pages/Modal.js","../Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js"}],"Onja_weather-app/pages/Header.js":[function(require,module,exports) {
+// import React, { useContext, useState } from "react";
+// function Header() {
+//   return (
+//   );
+// }
+// export default Header;
+},{}],"Onja_weather-app/Components/WeatherApp.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35907,7 +35910,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function WeatherApp() {
-  return /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("h1", null, "Onja Weather App "), /*#__PURE__*/_react.default.createElement(_Header.default, null), /*#__PURE__*/_react.default.createElement(_DisplayWeatherApp.default, null));
+  return /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("h1", null, "Onja Weather App "), /*#__PURE__*/_react.default.createElement(_DisplayWeatherApp.default, null));
 }
 
 var _default = WeatherApp;
@@ -35979,12 +35982,17 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"Onja_weather-app/index.css":[function(require,module,exports) {
+},{"./bundle-url":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"Onja_weather-app/Css/font_face.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.js":[function(require,module,exports) {
+},{"./fonts\\Raleway-Bold.woff2":[["Raleway-Bold.34d165f7.woff2","Onja_weather-app/Css/fonts/Raleway-Bold.woff2"],"Onja_weather-app/Css/fonts/Raleway-Bold.woff2"],"./fonts\\Raleway-Bold.woff":[["Raleway-Bold.6c7c3a57.woff","Onja_weather-app/Css/fonts/Raleway-Bold.woff"],"Onja_weather-app/Css/fonts/Raleway-Bold.woff"],"./fonts\\Raleway-Thin.woff2":[["Raleway-Thin.04e08ecd.woff2","Onja_weather-app/Css/fonts/Raleway-Thin.woff2"],"Onja_weather-app/Css/fonts/Raleway-Thin.woff2"],"./fonts\\Raleway-Thin.woff":[["Raleway-Thin.4a3e0747.woff","Onja_weather-app/Css/fonts/Raleway-Thin.woff"],"Onja_weather-app/Css/fonts/Raleway-Thin.woff"],"./fonts\\Raleway-ThinItalic.woff2":[["Raleway-ThinItalic.9f1038f1.woff2","Onja_weather-app/Css/fonts/Raleway-ThinItalic.woff2"],"Onja_weather-app/Css/fonts/Raleway-ThinItalic.woff2"],"./fonts\\Raleway-ThinItalic.woff":[["Raleway-ThinItalic.b0a398bd.woff","Onja_weather-app/Css/fonts/Raleway-ThinItalic.woff"],"Onja_weather-app/Css/fonts/Raleway-ThinItalic.woff"],"_css_loader":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"Onja_weather-app/Css/index.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"./font_face.css":"Onja_weather-app/Css/font_face.css","_css_loader":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -35997,12 +36005,12 @@ var _WeatherApp = _interopRequireDefault(require("./Onja_weather-app/Components/
 
 var _WeatherAppContext = require("./Onja_weather-app/Components/WeatherAppContext");
 
-require("./Onja_weather-app/index.css");
+require("./Onja_weather-app/Css/index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_WeatherAppContext.WeatherContextProvider, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_WeatherApp.default, null))), document.getElementById("root"));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./Onja_weather-app/Components/WeatherApp":"Onja_weather-app/Components/WeatherApp.js","./Onja_weather-app/Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js","./Onja_weather-app/index.css":"Onja_weather-app/index.css"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./Onja_weather-app/Components/WeatherApp":"Onja_weather-app/Components/WeatherApp.js","./Onja_weather-app/Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js","./Onja_weather-app/Css/index.css":"Onja_weather-app/Css/index.css"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -36030,7 +36038,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55402" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54042" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,7 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import locationSearchSvg from "../icons/location_searching.svg";
+import Modal from "../pages/Modal";
 import { WeatherAppContexts } from "../Components/WeatherAppContext";
 
 function DisplayWeatherApp() {
+  const [search, setSearch] = useState(false);
+  console.log(search);
+
   const { state, dispatch } = useContext(WeatherAppContexts);
   const { weather, loading } = state;
   console.log(weather);
@@ -23,50 +28,78 @@ function DisplayWeatherApp() {
   console.log(weekWeather);
 
   return (
-    <main>
-      <div>
+    <section>
+      <header className="subheadings">
+        <div className="main-container">
+          <button className="container__search" onClick={() => setSearch(true)}>
+            Search for places
+          </button>
+          <button className="container__icon">
+            <img src={locationSearchSvg} />
+          </button>
+        </div>
+        {search ? <Modal search={search} setSearch={setSearch} /> : ""}
         {!loading && "Loading..."}
-        <img
-          src={`https://www.metaweather.com//static/img/weather/${weatherConsolidated.weather_state_abbr}.svg`}
-        />
-        <p>{weatherConsolidated.humidity}&deg;C</p>
-        <p>{weatherConsolidated.weather_state_name}</p>
-        <p>Today: {new Date(weatherConsolidated.applicable_date).toDateString()}</p>
-      </div>
-      <div>
-        {weekWeather.map((day) => (
-          <ul key={day.id}>
-            <li>{new Date(day.applicable_date).toDateString()}</li>
-            <img
-              src={`https://www.metaweather.com//static/img/weather/${day.weather_state_abbr}.svg`}
-            />
-            <li>{day.humidity}&deg;C</li>
-            <li>{day.predictability}&deg;C</li>
-          </ul>
-        ))}
-      </div>
-      <div>
-        <h2>{new Date(weatherConsolidated.applicable_date).toDateString()} Highlight</h2>
-        <ul>
-          <li>
-            <p>Wind status</p>
-            <p></p>
-          </li>
+        <div className="main-container-description">
+          <img
+            className="image-heading"
+            src={`https://www.metaweather.com//static/img/weather/${weatherConsolidated.weather_state_abbr}.svg`}
+          />
+          <p className="temp">{weatherConsolidated.the_temp}&deg;C</p>
+          <p className="name">{weatherConsolidated.weather_state_name}</p>
+          <p className="date">
+            Today:{" "}
+            {new Date(weatherConsolidated.applicable_date).toDateString()}
+          </p>
+        </div>
+      </header>
+      <div className="more-info">
+        <ul className="container">
+          {weekWeather.map((day) => (
+            <li key={day.id} className="list-items">
+              <p>{new Date(day.applicable_date).toDateString()}</p>
+              <img
+                className="image-content"
+                src={`https://www.metaweather.com//static/img/weather/${day.weather_state_abbr}.svg`}
+              />
+              <div className="tempeture">
+                <p>{day.max_temp} &deg;C</p>
+                <p>{day.min_temp} &deg;C</p>
+              </div>
+            </li>
+          ))}
         </ul>
+        <div>
+          <h2>
+            {new Date(weatherConsolidated.applicable_date).toDateString()}{" "}
+            Highlight
+          </h2>
+          <ul className="lists-info">
+            <li>
+              <p>Wind status</p>
+              <p>{weatherConsolidated.wind_speed} mph</p>
+              <p>{weatherConsolidated.wind_direction_compass}</p>
+            </li>
+            <li>
+              <p>Humidity</p>
+              <p>{weatherConsolidated.humidity} %</p>
+              <p>
+                <progress>100</progress>%
+              </p>
+            </li>
+            <li>
+              <p>Visibility</p>
+              <p>{weatherConsolidated.visibility} miles</p>
+            </li>
+            <li>
+              <p>Air pressure</p>
+              <p>{weatherConsolidated.air_pressure} mb</p>
+            </li>
+          </ul>
+        </div>
       </div>
-    </main>
+    </section>
   );
 }
-{
-  /* <li>{day.weather2}</li> */
-}
-{
-  /* <li>{day.weather3}</li> */
-}
-{
-  /* <li>{day.weather4}</li> */
-}
-{
-  /* <li>{day.weather5}</li> */
-}
+
 export default DisplayWeatherApp;
