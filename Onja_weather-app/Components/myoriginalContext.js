@@ -1,3 +1,6 @@
+
+
+
 import axios from "axios";
 import React, { createContext, useEffect, useReducer, useState } from "react";
 
@@ -5,9 +8,7 @@ const WeatherAppContexts = createContext();
 
 const CORSE_API = "https://cors-anywhere.herokuapp.com/";
 
-const DEFAULT_API = "https://www.metaweather.com//api/location/";
-
-const QUERY = "https://www.metaweather.com//api/location/search/?query=";
+const DEFAULT_API = "https://www.metaweather.com//api/location/search/?query=";
 
 function WeatherContextProvider({ children }) {
   const [query, setQuery] = useState("london");
@@ -23,11 +24,11 @@ function WeatherContextProvider({ children }) {
           };
         }
 
-        case "WEATHER_QUERY": {
+        case "DETAILS": {
           return {
             ...state,
-            weather: action.result
-          }
+            weather: action.result,
+          };
         }
 
         default: {
@@ -37,29 +38,27 @@ function WeatherContextProvider({ children }) {
       }
       return state;
     },
-    { weather: [], date: new Date(), loading: false, woeid: "44418" }
+    { weather: [], details: [],  loading: false }
   );
 
-  const { weather, loading, woeid } = state;
-  console.log(woeid);
-  console.log("first fetch", (weather.woeid));
+  const { weather, loading } = state;
+  console.log("first fetch", weather);
 
-  function detailedWeather() {
-      console.log("details", weather.woeid);
+  async function fetchDataWeatherFromApi() {
+    const response = await axios(CORSE_API + DEFAULT_API + query);
+    console.log("response data", response.data);
+    dispatch({ type: "WEATHER_DEFAULT", response: response.data });
+
+    if(weather) {
+      console.log("woeid waethe", weather.woeid);
+    }
   }
 
   useEffect(async () => {
-    const response = await axios(CORSE_API + DEFAULT_API + woeid );
-    console.log(response.data);
-    dispatch({ type: "WEATHER_DEFAULT", response: response.data });
+    fetchDataWeatherFromApi();
     console.log(query);
   }, []);
 
-  useEffect(async () => {
-    const result = await axios(CORSE_API + QUERY + query )
-    console.log(result.data);
-    dispatch({type: "WEATHER_QUERY", result: result.data})
-  }, [])
 
   function handeInputQuery(e) {
     setQuery(e.target.value);
@@ -69,7 +68,7 @@ function WeatherContextProvider({ children }) {
   function handleSubmitQuery(e) {
     e.preventDefault();
     console.log(query);
-    dispatch({type: "WEATHER_QUERY"})
+    dispatch({ type: "WEATHER_QUERY" });
   }
 
   return (

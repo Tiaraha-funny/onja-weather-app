@@ -73,7 +73,7 @@ function DisplayWeatherApp() {
           <ul className="lists-info">
             <li>
               <p>Wind status</p>
-              <p>{weatherToday.wind_speed} mph</p>
+              <p>{Math.round(weatherToday.wind_speed)} mph</p>
               <p>{weatherToday.wind_direction_compass}</p>
             </li>
             <li>
@@ -90,11 +90,11 @@ function DisplayWeatherApp() {
             </li>
             <li>
               <p>Visibility</p>
-              <p>{weatherToday.visibility} miles</p>
+              <p>{Math.round(weatherToday.visibility)} miles</p>
             </li>
             <li>
               <p>Air pressure</p>
-              <p>{weatherToday.air_pressure} mb</p>
+              <p>{Math.round(weatherToday.air_pressure)} mb</p>
             </li>
           </ul>
         </div>

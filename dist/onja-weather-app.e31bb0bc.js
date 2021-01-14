@@ -35719,7 +35719,12 @@ function WeatherContextProvider({
     woeid
   } = state;
   console.log(woeid);
-  console.log(weather);
+  console.log("first fetch", weather.woeid);
+
+  function detailedWeather() {
+    console.log("details", weather.woeid);
+  }
+
   (0, _react.useEffect)(async () => {
     const response = await (0, _axios.default)(CORSE_API + DEFAULT_API + woeid);
     console.log(response.data);
@@ -35771,6 +35776,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _axios = _interopRequireDefault(require("axios"));
+
 var _react = _interopRequireWildcard(require("react"));
 
 var _WeatherAppContext = require("../Components/WeatherAppContext");
@@ -35779,29 +35786,47 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function Modal({
   search,
   setSearch
 }) {
   const {
     state,
-    handeInputQuery,
-    handleSubmitQuery,
-    qeury
+    dispatch,
+    CORSE_API,
+    query,
+    setQuery
   } = (0, _react.useContext)(_WeatherAppContext.WeatherAppContexts);
   const classModalName = search ? "displayBlock" : "displayNone";
+  (0, _react.useEffect)(() => {
+    handleSubmitQuery();
+  }, [query]);
+
+  async function handleSubmitQuery(e) {
+    console.log("prevent def", e);
+    e.preventDefault();
+    fetchQuery();
+  }
+
+  function handeInputQuery(e) {
+    setQuery(e.target.value);
+    console.log("fetch this", query);
+  }
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: classModalName
   }, /*#__PURE__*/_react.default.createElement("form", {
     className: "modal-content",
-    onSubmit: e => handleSubmitQuery(e.target.value)
+    onSubmit: handleSubmitQuery
   }, /*#__PURE__*/_react.default.createElement("input", {
     type: "text",
-    value: qeury,
+    value: query,
     onChange: handeInputQuery,
     placeholder: "search location"
   }), /*#__PURE__*/_react.default.createElement("button", {
-    type: "submit",
+    onSubmit: handleSubmitQuery,
     className: "search-btn"
   }, "Search")), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => setSearch(false),
@@ -35811,7 +35836,7 @@ function Modal({
 
 var _default = Modal;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js"}],"Onja_weather-app/pages/Header.js":[function(require,module,exports) {
+},{"axios":"node_modules/axios/index.js","react":"node_modules/react/index.js","../Components/WeatherAppContext":"Onja_weather-app/Components/WeatherAppContext.js"}],"Onja_weather-app/pages/Header.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35928,7 +35953,7 @@ function DisplayWeatherApp() {
     className: "tempeture"
   }, /*#__PURE__*/_react.default.createElement("p", null, Math.round(day.max_temp), " \xB0C"), /*#__PURE__*/_react.default.createElement("p", null, Math.round(day.min_temp), " \xB0C"))))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, new Date(weatherToday.applicable_date).toDateString(), " ", "Highlight"), /*#__PURE__*/_react.default.createElement("ul", {
     className: "lists-info"
-  }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Wind status"), /*#__PURE__*/_react.default.createElement("p", null, weatherToday.wind_speed, " mph"), /*#__PURE__*/_react.default.createElement("p", null, weatherToday.wind_direction_compass)), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Humidity"), /*#__PURE__*/_react.default.createElement("p", null, weatherToday.humidity, " %"), /*#__PURE__*/_react.default.createElement("dfn", {
+  }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Wind status"), /*#__PURE__*/_react.default.createElement("p", null, Math.round(weatherToday.wind_speed), " mph"), /*#__PURE__*/_react.default.createElement("p", null, weatherToday.wind_direction_compass)), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Humidity"), /*#__PURE__*/_react.default.createElement("p", null, weatherToday.humidity, " %"), /*#__PURE__*/_react.default.createElement("dfn", {
     className: "progress-bar"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "progress"
@@ -35937,7 +35962,7 @@ function DisplayWeatherApp() {
   }, "50"), /*#__PURE__*/_react.default.createElement("small", null, "100")), /*#__PURE__*/_react.default.createElement("progress", {
     value: weatherToday.humidity,
     max: "100"
-  }), "%")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Visibility"), /*#__PURE__*/_react.default.createElement("p", null, weatherToday.visibility, " miles")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Air pressure"), /*#__PURE__*/_react.default.createElement("p", null, weatherToday.air_pressure, " mb"))))));
+  }), "%")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Visibility"), /*#__PURE__*/_react.default.createElement("p", null, Math.round(weatherToday.visibility), " miles")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("p", null, "Air pressure"), /*#__PURE__*/_react.default.createElement("p", null, Math.round(weatherToday.air_pressure), " mb"))))));
 }
 
 var _default = DisplayWeatherApp;
@@ -36091,7 +36116,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54039" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50055" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
